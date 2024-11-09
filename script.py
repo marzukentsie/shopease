@@ -54,13 +54,62 @@ import os
 load_dotenv('.env.local')
 # Loading Data: Populate the data into your database. Do not forget to create the schema
 # in your database before populating the data with python.
-connectionString = os.getenv('POSTGRESQL_CRED')
 # # Step 1: Connect to the database
+connectionString = os.getenv('POSTGRESQL_CRED')
 connection = pg.connect(connectionString)
 cursor = connection.cursor()
 
-cursor.execute("SELECT version();")
-version = cursor.fetchone()
-print(version)
+# print without index
+# print(sales_df.to_string(index=False))
+# Step 2: Create the schema
+# print(sales_df.dtypes)
+# cursor.execute(''' 
+# CREATE SCHEMA IF NOT EXISTS sales;
+# ''')
+# Step 3: Create the table
+# Sales Table
+# cursor.execute('''
+# CREATE TABLE IF NOT EXISTS sales.sales (
+#     order_id INT,
+#     customer_id INT,
+#     order_date DATE,
+#     product_id INT,
+#     quantity INT,
+#     product_name VARCHAR(50),
+#     category VARCHAR(50),
+#     price FLOAT,
+#     total_revenue FLOAT,
+#     year INT,
+#     month INT
+# );
+# ''')
 
+# Step 4: Insert the data
+# for index, row in sales_df.iterrows():
+#     cursor.execute('''
+#     INSERT INTO sales.sales (order_id, customer_id, order_date, product_id, quantity, product_name, category, price, total_revenue, year, month)
+#     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+#     ''', (row['order_id'], row['Cutomer_id'], row['order_date'], row['product_id'], row['quantity'], row['product_name'], row['category'], row['price'], row['total_revenue'], row['year'], row['month']))
+
+# connection.commit()
+# # view what the itterrows() method does
+# for index, row in sales_df.iterrows():
+#     # print(index)
+#     print(row)
+#     break
+# print(sales_df.columns)
+
+# Select the data from the table
+cursor.execute('''
+SELECT * FROM sales.sales;
+''')
+
+def view_table(table_name, limit):
+    query = f"SELECT * FROM {table_name}"
+    if limit:
+        query += f" LIMIT {limit}"
+    return pd.read_sql_query(query, connection)
+
+print(view_table('sales.sales', 10))
+# Fetch the data
 connection.close()
