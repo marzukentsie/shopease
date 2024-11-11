@@ -38,3 +38,28 @@ DROP COLUMN fax,
 DROP COLUMN account_number, 
 DROP COLUMN order_history, 
 DROP COLUMN contract
+
+-- Task 4
+CREATE TABLE sales.orders_partitioned (
+    order_id SERIAL,
+    customer_id INTEGER,
+    order_date DATE,
+    product_id INTEGER,
+    quantity INTEGER,
+    PRIMARY KEY (order_id, order_date)
+)
+PARTITION BY RANGE (order_date);
+
+CREATE TABLE sales.orders_2024 PARTITION OF sales.orders_partitioned
+    FOR VALUES FROM ('2024-01-01') TO ('2025-01-01');
+
+CREATE TABLE sales.orders_2025 PARTITION OF sales.orders_partitioned
+    FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
+
+INSERT INTO sales.orders_partitioned (order_id, customer_id, order_date, product_id, quantity)
+SELECT order_id, customer_id, order_date, product_id, quantity
+FROM sales.orders;
+
+DROP TABLE sales.orders;
+
+ALTER TABLE sales.orders_partitioned RENAME TO orders;
