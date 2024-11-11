@@ -15,6 +15,8 @@ dataframes = [orders_df, products_df, orders_items_df, customers_df, inventory_d
 # # date columns available in the dataframes order_date | join_date | stock_date
 date_columns = ['order_date', 'join_date', 'stock_date']
 
+
+
 for df in dataframes:
     df.dropna(inplace=True)
     df.drop_duplicates(inplace=True)
