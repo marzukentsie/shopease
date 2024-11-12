@@ -60,3 +60,5 @@ SELECT
 FROM sales.orders AS orders
 JOIN sales.products AS products ON orders.product_id = products.product_id
 JOIN sales.customers AS customers ON orders.customer_id = customers.customer_id;
+
+CREATE INDEX idx_customers_customer_id ON sales.customers (customer_id);

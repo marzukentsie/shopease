@@ -4,7 +4,6 @@ CREATE INDEX idx_orders_order_date ON sales.orders (order_date);
 CREATE INDEX idx_orders_product_id ON sales.orders (product_id);
 CREATE INDEX idx_orders_order_id ON sales.orders (order_id);
 CREATE INDEX idx_products_product_id ON sales.products (product_id);
-CREATE INDEX idx_customers_customer_id ON sales.customers (customer_id);
 
 -- Task 3
 
