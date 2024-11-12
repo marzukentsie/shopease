@@ -255,16 +255,15 @@ cursor = connection.cursor()
 #         WHERE supplier = %s
 #         ''', (supplier_id, supplier_name))
 
-# there are only orders for 2024 and 2025, create partitions for each year
-cursor.execute('''
-CREATE TABLE sales.orders (
-    order_id SERIAL PRIMARY KEY,
-    customer_id INTEGER,
-    order_date DATE,
-    product_id INTEGER,
-    quantity INTEGER
-) PARTITION BY RANGE (order_date);
-''')
+# cursor.execute('''
+# CREATE TABLE sales.orders (
+#     order_id SERIAL PRIMARY KEY,
+#     customer_id INTEGER,
+#     order_date DATE,
+#     product_id INTEGER,
+#     quantity INTEGER
+# ) PARTITION BY RANGE (order_date);
+# ''')
 
 
 connection.commit()
